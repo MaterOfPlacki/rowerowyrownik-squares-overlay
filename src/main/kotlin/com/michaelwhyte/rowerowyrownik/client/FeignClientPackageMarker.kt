@@ -1,0 +1,3 @@
+package com.michaelwhyte.rowerowyrownik.client
+
+interface FeignClientPackageMarker

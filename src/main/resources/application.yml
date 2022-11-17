@@ -1,0 +1,5 @@
+rowerowyrownik:
+    service-name: rowerowy-rownik-svc
+    service-address: https://rowerowyrownik.pl/mapa/
+    endpoint:
+        squares: square.json
