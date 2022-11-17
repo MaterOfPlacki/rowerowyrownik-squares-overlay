@@ -15,22 +15,24 @@ class SquareService(
 
     var squaresMap: SquaresMap = initSquaresMap()
 
+    fun isSquareCompleted(x: Int, y: Int) = getSquareMap().isSquareCompleted(x, y)
+
     fun getSquareMap(): SquaresMap {
         refreshSquaresMapIfNecessary()
         return squaresMap
     }
 
-    final fun initSquaresMap(): SquaresMap {
-        return SquaresMap(getSquareData())
+    private final fun initSquaresMap(): SquaresMap {
+        return SquaresMap(getSquareDataJson())
     }
 
-    final fun refreshSquaresMapIfNecessary() {
+    private final fun refreshSquaresMapIfNecessary() {
         if(LocalDate.now().dayOfYear != this.squaresMap.date.dayOfYear) {
             squaresMap = initSquaresMap()
         }
     }
 
-    fun getSquareData(): List<Square> {
+    fun getSquareDataJson(): List<Square> {
         return jacksonObjectMapper().readValue(loadResource("test-json/squares.json"))
     }
 }
