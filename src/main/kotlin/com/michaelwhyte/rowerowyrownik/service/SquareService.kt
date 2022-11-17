@@ -31,6 +31,6 @@ class SquareService(
     }
 
     fun getSquareData(): List<Square> {
-        return jacksonObjectMapper().readValue(loadTestResource("test-json/squares.json"))
+        return jacksonObjectMapper().readValue(loadResource("test-json/squares.json"))
     }
 }
