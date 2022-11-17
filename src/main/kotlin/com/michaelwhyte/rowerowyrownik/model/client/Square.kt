@@ -1,4 +1,9 @@
 package com.michaelwhyte.rowerowyrownik.model.client
 
-class Square {
-}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class Square(
+    val x: Int,
+    val y: Int
+)
