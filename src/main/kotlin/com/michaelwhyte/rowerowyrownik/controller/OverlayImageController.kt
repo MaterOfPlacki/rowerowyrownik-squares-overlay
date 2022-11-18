@@ -2,11 +2,17 @@ package com.michaelwhyte.rowerowyrownik.controller
 
 import com.michaelwhyte.rowerowyrownik.client.SquareClient
 import com.michaelwhyte.rowerowyrownik.service.OverlayImageService
-import com.michaelwhyte.rowerowyrownik.service.loadResource
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
+import java.awt.Color
+import java.awt.Rectangle
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
+import java.io.OutputStream
+import javax.imageio.ImageIO
+
 
 @RestController
 class OverlayImageController(
@@ -44,5 +50,33 @@ class OverlayImageController(
     fun getSquareOverlay(@PathVariable zoom: Int, @PathVariable x: Int, @PathVariable y: Int): ByteArray? {
         return service.getOverlay(zoom, x, y)
     }
+
+    @GetMapping(
+        value = ["/generate"],
+        produces = [MediaType.IMAGE_PNG_VALUE]
+    )
+    fun generate(): ByteArray? {
+        val zoom = 12
+        val x = 2315
+        val y = 1378
+
+        val EDGE = 256
+
+        val finalImage = BufferedImage(EDGE, EDGE, BufferedImage.TYPE_INT_ARGB)
+        val graphics2D = finalImage.createGraphics()
+        graphics2D.color = Color(255,45, 206, 127)
+
+        graphics2D.fill(Rectangle(0, 0, 128, 128))
+
+        graphics2D.dispose();
+
+
+
+        val out  = ByteArrayOutputStream()
+        ImageIO.write(finalImage, "png", out)
+
+        return out.toByteArray()
+    }
+
 
 }
