@@ -13,7 +13,7 @@ class OverlayImageService(
     val squareService: SquareService
 ) {
     private val baseZoomLevel = 14
-    private val tileColor = Color(255,45, 206, 127)
+    private val tileColor = Color(255, 45, 206, 127)
     private val tileImage = generateSingeTile()
 
     fun getOverlay(zoom: Int, x: Int, y: Int): ByteArray? {
@@ -26,33 +26,35 @@ class OverlayImageService(
 
     fun isSquareCompletedForZoomedOut(zoom: Int, x: Int, y: Int): Boolean {
         val power = zoom - baseZoomLevel
-        val magnitude = 2.toDouble().pow(power.toDouble())
+        val scale = 2.toDouble().pow(power.toDouble())
 
-        return squareService.isSquareCompleted((x/magnitude).toInt(), (y/magnitude).toInt())
+        return squareService.isSquareCompleted((x / scale).toInt(), (y / scale).toInt())
     }
 
     fun generateZoomedOut(zoom: Int, x: Int, y: Int): ByteArray? {
         val power = baseZoomLevel - zoom
-        val magnitude = 2.toDouble().pow(power.toDouble()).toInt()
+        val scale = 2.toDouble().pow(power.toDouble()).toInt()
 
         val edge = 256
-        val calculatedEdge = (edge / magnitude).toInt()
+        val calculatedEdge = (edge / scale).toInt()
 
         val finalImage = BufferedImage(edge, edge, BufferedImage.TYPE_INT_ARGB)
         val graphics2D = finalImage.createGraphics()
         graphics2D.color = tileColor
 
-        for (i in 0..magnitude) {
-            for (j in 0..magnitude) {
-                if(squareService.isSquareCompleted((x*magnitude.toInt()) + i, (y*magnitude.toInt()) + j)) {
-                        graphics2D.fill(Rectangle(i*calculatedEdge, j*calculatedEdge, calculatedEdge, calculatedEdge))
+        for (i in 0..scale) {
+            for (j in 0..scale) {
+                if (squareService.isSquareCompleted((x * scale.toInt()) + i, (y * scale.toInt()) + j)) {
+                    graphics2D.fill(
+                        Rectangle(i * calculatedEdge, j * calculatedEdge, calculatedEdge, calculatedEdge)
+                    )
                 }
             }
         }
 
         graphics2D.dispose();
 
-        val out  = ByteArrayOutputStream()
+        val out = ByteArrayOutputStream()
         ImageIO.write(finalImage, "png", out)
 
         return out.toByteArray()
@@ -66,7 +68,7 @@ class OverlayImageService(
         graphics2D.fill(Rectangle(0, 0, edge, edge))
         graphics2D.dispose();
 
-        val out  = ByteArrayOutputStream()
+        val out = ByteArrayOutputStream()
         ImageIO.write(finalImage, "png", out)
 
         return out.toByteArray()
