@@ -5,16 +5,17 @@ import java.time.LocalDate
 
 class SquaresMap(list: List<Square>) {
     val date: LocalDate = LocalDate.now()
-    val offsetPosX: Int
-    val offsetPosY: Int
 
-    val maxPosX: Int
-    val maxPosY: Int
+    private val offsetPosX: Int
+    private val offsetPosY: Int
 
-    val sizeX: Int
-    val sizeY: Int
+    private val maxPosX: Int
+    private val maxPosY: Int
 
-    val squareArray: Array<Array<Boolean>>
+    private val sizeX: Int
+    private val sizeY: Int
+
+    private val squareArray: Array<Array<Boolean>>
 
     init {
         val xRange = getXRange(list)
